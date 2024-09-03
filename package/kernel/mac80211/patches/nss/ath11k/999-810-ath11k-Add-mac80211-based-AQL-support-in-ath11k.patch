@@ -49,7 +49,7 @@ base-commit: 12f167f02a1abe2c8817496a902de00758285b92
  
 --- a/drivers/net/wireless/ath/ath11k/mac.c
 +++ b/drivers/net/wireless/ath/ath11k/mac.c
-@@ -6317,9 +6317,9 @@ static int ath11k_mac_tx_over_wmi(struct
+@@ -6307,9 +6307,9 @@ static int ath11k_mac_tx_over_wmi(struct
  	return 0;
  }
  
@@ -62,7 +62,7 @@ base-commit: 12f167f02a1abe2c8817496a902de00758285b92
  {
  	struct ath11k_skb_cb *skb_cb = ATH11K_SKB_CB(skb);
  	struct ath11k *ar = hw->priv;
-@@ -6379,8 +6379,8 @@ static void ath11k_mac_op_tx(struct ieee
+@@ -6369,8 +6369,8 @@ static void ath11k_mac_op_tx(struct ieee
  		return;
  	}
  
@@ -73,7 +73,7 @@ base-commit: 12f167f02a1abe2c8817496a902de00758285b92
  
  	/* Must call mac80211 tx status handler, else when stats is disabled we free
  	 * the skb from driver. Own tx packets on monitor will also be disabled.
-@@ -6403,6 +6403,62 @@ static void ath11k_mac_op_tx(struct ieee
+@@ -6393,6 +6393,62 @@ static void ath11k_mac_op_tx(struct ieee
  	}
  }
  
@@ -136,7 +136,7 @@ base-commit: 12f167f02a1abe2c8817496a902de00758285b92
  void ath11k_mac_drain_tx(struct ath11k *ar)
  {
  	/* make sure rcu-protected mac80211 tx path itself is drained */
-@@ -9746,7 +9802,7 @@ static int ath11k_mac_op_sta_state(struc
+@@ -10267,7 +10323,7 @@ ath11k_mac_op_config_mesh_offload_path(s
  
  static const struct ieee80211_ops ath11k_ops = {
  	.tx				= ath11k_mac_op_tx,
@@ -145,7 +145,7 @@ base-commit: 12f167f02a1abe2c8817496a902de00758285b92
  	.start                          = ath11k_mac_op_start,
  	.stop                           = ath11k_mac_op_stop,
  	.reconfig_complete              = ath11k_mac_op_reconfig_complete,
-@@ -10274,6 +10330,8 @@ static int __ath11k_mac_register(struct
+@@ -10842,6 +10898,8 @@ static int __ath11k_mac_register(struct
  			ieee80211_hw_set(ar->hw, SUPPORTS_MESH_NSS_OFFLOAD);
  	}
  
@@ -156,9 +156,9 @@ base-commit: 12f167f02a1abe2c8817496a902de00758285b92
  		ath11k_err(ar->ab, "ieee80211 registration failed: %d\n", ret);
 --- a/drivers/net/wireless/ath/ath11k/mac.h
 +++ b/drivers/net/wireless/ath/ath11k/mac.h
-@@ -174,4 +174,5 @@ int ath11k_mac_wait_tx_complete(struct a
- int ath11k_mac_vif_set_keepalive(struct ath11k_vif *arvif,
- 				 enum wmi_sta_keepalive_method method,
- 				 u32 interval);
+@@ -178,4 +178,5 @@ int ath11k_mac_vif_set_keepalive(struct
+ void ath11k_mac_fill_reg_tpc_info(struct ath11k *ar,
+ 				  struct ieee80211_vif *vif,
+ 				  struct ieee80211_chanctx_conf *ctx);
 +void ath11k_mac_tx_push_pending(struct ath11k *ar);
  #endif
